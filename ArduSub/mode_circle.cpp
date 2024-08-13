@@ -84,3 +84,4 @@ void ModeCircle::run()
     position_control->set_pos_target_z_from_climb_rate_cm(target_climb_rate);
     position_control->update_z_controller();
 }
+

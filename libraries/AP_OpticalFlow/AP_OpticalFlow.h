@@ -54,6 +54,7 @@ public:
         MSP = 7,
         UPFLOW = 8,
         SITL = 10,
+	    CHAD = 11,
     };
 
     // init - initialise sensor
@@ -77,7 +78,7 @@ public:
 #endif
 
     // quality - returns the surface quality as a measure from 0 ~ 255
-    uint8_t quality() const { return _state.surface_quality; }
+    int quality() const { return _state.surface_quality; }
 
     // flowRate - returns the raw movement from the sensor in rad/s
     const Vector2f& flowRate() const { return _state.flowRate; }
@@ -95,7 +96,12 @@ public:
         uint8_t  surface_quality;   // image quality (below TBD you can't trust the dx,dy values returned)
         Vector2f flowRate;          // optical flow angular rate in rad/sec measured about the X and Y body axis. A RH rotation about a sensor axis produces a positive rate.
         Vector2f bodyRate;          // body inertial angular rate in rad/sec measured about the X and Y body axis. A RH rotation about a sensor axis produces a positive rate.
+    	
+	float flow_Vz;
+	float body_Vz;
     };
+
+    const OpticalFlow_state getState() const {return _state;}
 
     // return a 3D vector defining the position offset of the sensors focal point in metres relative to the body frame origin
     const Vector3f &get_pos_offset(void) const {
