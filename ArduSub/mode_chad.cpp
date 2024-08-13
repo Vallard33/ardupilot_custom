@@ -85,7 +85,7 @@ void ModeChad::run()
     uint8_t quality = sub.optflow.quality();
     uint32_t dt = tnow - previous;
 
-    Vector3f V_robot= {-V.x, V.y, -Vz}; //Because the y axis is reversed on a image and because the sensor gives us the speed/displacement of the image relatively to the scene
+    Vector3f V_robot= {-V.x, V.y, Vz}; //Because the y axis is reversed on a image and because the sensor gives us the speed/displacement of the image relatively to the scene
 
     previous = tnow;
 
