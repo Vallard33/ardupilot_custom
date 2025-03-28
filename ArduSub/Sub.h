@@ -98,6 +98,9 @@
 #include <AP_Scripting/AP_Scripting.h>
 #endif
 
+#include "AC_PID/AC_PID.h"
+
+
 class Sub : public AP_Vehicle {
 public:
     friend class GCS_MAVLINK_Sub;
@@ -118,6 +121,7 @@ public:
     friend class ModeCircle;
     friend class ModeSurface;
     friend class ModeMotordetect;
+    friend class ModeChad;
 
     Sub(void);
 
@@ -598,6 +602,7 @@ private:
     ModeSurface mode_surface;
     ModeMotordetect mode_motordetect;
     ModeSurftrak mode_surftrak;
+    ModeChad mode_chad;
 
     // Auto
     AutoSubMode auto_mode;   // controls which auto controller is run

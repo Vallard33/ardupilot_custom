@@ -1,8 +1,8 @@
 #include "Sub.h"
 
 /*
-  constructor for Mode object
- */
+   constructor for Mode object
+   */
 Mode::Mode(void) :
     g(sub.g),
     g2(sub.g2),
@@ -26,41 +26,43 @@ Mode *Sub::mode_from_mode_num(const Mode::Number mode)
     Mode *ret = nullptr;
 
     switch (mode) {
-    case Mode::Number::MANUAL:
-        ret = &mode_manual;
-        break;
-    case Mode::Number::STABILIZE:
-        ret = &mode_stabilize;
-        break;
-    case Mode::Number::ACRO:
-        ret = &mode_acro;
-        break;
-    case Mode::Number::ALT_HOLD:
-        ret = &mode_althold;
-        break;
-    case Mode::Number::SURFTRAK:
-        ret = &mode_surftrak;
-        break;
-    case Mode::Number::POSHOLD:
-        ret = &mode_poshold;
-        break;
-    case Mode::Number::AUTO:
-        ret = &mode_auto;
-        break;
-    case Mode::Number::GUIDED:
-        ret = &mode_guided;
-        break;
-    case Mode::Number::CIRCLE:
-        ret = &mode_circle;
-        break;
-    case Mode::Number::SURFACE:
-        ret = &mode_surface;
-        break;
-    case Mode::Number::MOTOR_DETECT:
-        ret = &mode_motordetect;
-        break;
-    default:
-        break;
+        case Mode::Number::MANUAL:
+            ret = &mode_manual;
+            break;
+        case Mode::Number::STABILIZE:
+            ret = &mode_stabilize;
+            break;
+        case Mode::Number::ACRO:
+            ret = &mode_acro;
+            break;
+        case Mode::Number::ALT_HOLD:
+            ret = &mode_althold;
+            break;
+        case Mode::Number::SURFTRAK:
+            ret = &mode_surftrak;
+            break;
+        case Mode::Number::POSHOLD:
+            ret = &mode_poshold;
+            break;
+        case Mode::Number::AUTO:
+            ret = &mode_auto;
+            break;
+        case Mode::Number::GUIDED:
+            ret = &mode_guided;
+            break;
+        case Mode::Number::CIRCLE:
+            ret = &mode_circle;
+            break;
+        case Mode::Number::SURFACE:
+            ret = &mode_surface;
+            break;
+        case Mode::Number::MOTOR_DETECT:
+            ret = &mode_motordetect;
+            break;
+        case Mode::Number::CHAD:
+            ret = &mode_chad;
+        default:
+            break;
     }
 
     return ret;
@@ -87,7 +89,7 @@ bool Sub::set_mode(Mode::Number mode, ModeReason reason)
     }
 
     if (new_flightmode->requires_GPS() &&
-        !sub.position_ok()) {
+            !sub.position_ok()) {
         gcs().send_text(MAV_SEVERITY_WARNING, "Mode change failed: %s requires position", new_flightmode->name());
         LOGGER_WRITE_ERROR(LogErrorSubsystem::FLIGHT_MODE, LogErrorCode(mode));
         return false;
@@ -96,8 +98,8 @@ bool Sub::set_mode(Mode::Number mode, ModeReason reason)
     // check for valid altitude if old mode did not require it but new one does
     // we only want to stop changing modes if it could make things worse
     if (!sub.control_check_barometer() && // maybe use ekf_alt_ok() instead?
-        flightmode->has_manual_throttle() &&
-        !new_flightmode->has_manual_throttle()) {
+            flightmode->has_manual_throttle() &&
+            !new_flightmode->has_manual_throttle()) {
         gcs().send_text(MAV_SEVERITY_WARNING, "Mode change failed: %s need alt estimate", new_flightmode->name());
         LOGGER_WRITE_ERROR(LogErrorSubsystem::FLIGHT_MODE, LogErrorCode(mode));
         return false;
@@ -161,7 +163,7 @@ void Sub::update_flight_mode()
 // exit_mode - high level call to organise cleanup as a flight mode is exited
 void Sub::exit_mode(Mode *&old_flightmode, Mode *&new_flightmode){
 #if HAL_MOUNT_ENABLED
-        camera_mount.set_mode_to_default();
+    camera_mount.set_mode_to_default();
 #endif  // HAL_MOUNT_ENABLED
 }
 

@@ -47,6 +47,7 @@ public:
         GUIDED =        4,  // fully automatic fly to coordinate or fly at velocity/direction using GCS immediate commands
         CIRCLE =        7,  // automatic circular flight with automatic throttle
         SURFACE =       9,  // automatically return to surface, pilot maintains horizontal control
+    	CHAD =		10, // Use the navigation camera to stabalize, override all pilot command
         POSHOLD =      16,  // automatic position hold with manual override, with automatic throttle
         MANUAL =       19,  // Pass-through input with no stabilization
         MOTOR_DETECT = 20,  // Automatically detect motors orientation
@@ -253,6 +254,40 @@ protected:
     const char *name() const override { return "STABILIZE"; }
     const char *name4() const override { return "STAB"; }
     Mode::Number number() const override { return Mode::Number::STABILIZE; }
+};
+
+class ModeChad : public Mode
+{
+    public :
+	    using Mode::Mode;
+
+
+    virtual void run() override;
+
+    bool init(bool ignore_checks) override;
+    bool requires_GPS() const override { return false; }
+    bool has_manual_throttle() const override { return true; } //A changer si on veut avoir un erreur MAV si pas de manometre
+    bool allows_arming(bool from_gcs) const override { return true; }
+    bool is_autopilot() const override { return false; }
+
+protected:
+
+    const char *name() const override { return "CHAD MODE"; }
+    const char *name4() const override { return "CHAD"; }
+
+    uint32_t previous = 0;
+    uint32_t before = 0;
+
+
+    // PID for axes x = forward, y = left, z = up 
+    AC_PID PIDx{g.Px, g.Ix, g.Dx, 0.345, 0.666, 3, 0, 12, 150, 1};
+    AC_PID PIDy{g.Py, g.Iy, g.Dy, 0.345, 0.666, 3, 0, 12, 150, 1};
+    AC_PID PIDz{g.Pz, g.Iz, g.Dz, 0.345, 0.666, 3, 0, 12, 150, 1 };
+
+
+   float Ux = 0;
+   float Uy = 0;
+   float Uz = 0;
 };
 
 

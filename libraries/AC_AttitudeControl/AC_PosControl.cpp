@@ -6,6 +6,9 @@
 #include <AP_Vehicle/AP_Vehicle_Type.h>
 #include <AP_Scheduler/AP_Scheduler.h>
 
+#include <GCS_MAVLink/GCS.h>
+
+
 extern const AP_HAL::HAL& hal;
 
 #if APM_BUILD_TYPE(APM_BUILD_ArduPlane)
@@ -647,13 +650,17 @@ void AC_PosControl::update_xy_controller()
     handle_ekf_xy_reset();
 
     // Check for position control time out
+    //
+    // TODO ISSUE HERE !
     if (!is_active_xy()) {
         init_xy_controller();
         if (has_good_timing()) {
             // call internal error because initialisation has not been done
             INTERNAL_ERROR(AP_InternalError::error_t::flow_of_control);
-        }
+       	    //DOES NOT KILL THE ROBOT
+       	}
     }
+
     _last_update_xy_ticks = AP::scheduler().ticks32();
 
     float ahrsGndSpdLimit, ahrsControlScaleXY;

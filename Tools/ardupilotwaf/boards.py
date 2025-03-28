@@ -1397,6 +1397,7 @@ class linux(Board):
         if self.toolchain == 'native':
             self.with_can = True
         else:
+            # XXX weird can stuff
             self.with_can = False
 
     def configure(self, cfg):

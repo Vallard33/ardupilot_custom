@@ -12,6 +12,7 @@
 #include "AP_OpticalFlow_HereFlow.h"
 #include "AP_OpticalFlow_MSP.h"
 #include "AP_OpticalFlow_UPFLOW.h"
+#include "AP_OpticalFlow_CHAD.h"
 #include <AP_Logger/AP_Logger.h>
 #include <GCS_MAVLink/GCS.h>
 #include <AP_AHRS/AP_AHRS.h>
@@ -27,7 +28,7 @@ const AP_Param::GroupInfo AP_OpticalFlow::var_info[] = {
     // @DisplayName: Optical flow sensor type
     // @Description: Optical flow sensor type
     // @SortValues: AlphabeticalZeroAtTop
-    // @Values: 0:None, 1:PX4Flow, 2:Pixart, 3:Bebop, 4:CXOF, 5:MAVLink, 6:DroneCAN, 7:MSP, 8:UPFLOW
+    // @Values: 0:None, 1:PX4Flow, 2:Pixart, 3:Bebop, 4:CXOF, 5:MAVLink, 6:DroneCAN, 7:MSP, 8:UPFLOW, 11:CHAD
     // @User: Standard
     // @RebootRequired: True
     AP_GROUPINFO_FLAGS("_TYPE", 0,  AP_OpticalFlow,    _type,   (float)OPTICAL_FLOW_TYPE_DEFAULT, AP_PARAM_FLAG_ENABLE),
@@ -169,6 +170,12 @@ void AP_OpticalFlow::init(uint32_t log_bit)
         backend = NEW_NOTHROW AP_OpticalFlow_SITL(*this);
 #endif
         break;
+//WW
+    case Type::CHAD:
+#if AP_OPTICALFLOW_CHAD_ENABLED
+	backend = new AP_OpticalFlow_Chad(*this);
+#endif
+	break;
     }
 
     if (backend != nullptr) {
@@ -180,28 +187,28 @@ void AP_OpticalFlow::update(void)
 {
     // exit immediately if not enabled
     if (!enabled()) {
-        return;
-    }
-    if (backend != nullptr) {
-        backend->update();
-    }
+return;
+}
+if (backend != nullptr) {
+backend->update();
+}
 
-    // only healthy if the data is less than 0.5s old
-    _flags.healthy = (AP_HAL::millis() - _last_update_ms < 500);
+// only healthy if the data is less than 0.5s old
+_flags.healthy = (AP_HAL::millis() - _last_update_ms < 500);
 
 #if AP_OPTICALFLOW_CALIBRATOR_ENABLED
-    // update calibrator and save resulting scaling
-    if (_calibrator != nullptr) {
-        if (_calibrator->update()) {
-            // apply new calibration values
-            const Vector2f new_scaling = _calibrator->get_scalars();
-            const float flow_scalerx_as_multiplier = (1.0 + (_flowScalerX * 0.001)) * new_scaling.x;
-            const float flow_scalery_as_multiplier = (1.0 + (_flowScalerY * 0.001)) * new_scaling.y;
-            _flowScalerX.set_and_save_ifchanged((flow_scalerx_as_multiplier - 1.0) * 1000.0);
-            _flowScalerY.set_and_save_ifchanged((flow_scalery_as_multiplier - 1.0) * 1000.0);
-            _flowScalerX.notify();
-            _flowScalerY.notify();
-            GCS_SEND_TEXT(MAV_SEVERITY_INFO, "FlowCal: FLOW_FXSCALER=%d, FLOW_FYSCALER=%d", (int)_flowScalerX, (int)_flowScalerY);
+// update calibrator and save resulting scaling
+if (_calibrator != nullptr) {
+if (_calibrator->update()) {
+    // apply new calibration values
+    const Vector2f new_scaling = _calibrator->get_scalars();
+    const float flow_scalerx_as_multiplier = (1.0 + (_flowScalerX * 0.001)) * new_scaling.x;
+    const float flow_scalery_as_multiplier = (1.0 + (_flowScalerY * 0.001)) * new_scaling.y;
+    _flowScalerX.set_and_save_ifchanged((flow_scalerx_as_multiplier - 1.0) * 1000.0);
+    _flowScalerY.set_and_save_ifchanged((flow_scalery_as_multiplier - 1.0) * 1000.0);
+    _flowScalerX.notify();
+    _flowScalerY.notify();
+    GCS_SEND_TEXT(MAV_SEVERITY_INFO, "FlowCal: FLOW_FXSCALER=%d, FLOW_FYSCALER=%d", (int)_flowScalerX, (int)_flowScalerY);
         }
     }
 #endif

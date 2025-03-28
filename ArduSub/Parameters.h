@@ -167,7 +167,16 @@ public:
         k_param_pi_vel_xy, // deprecated
         k_param_p_vel_z, // deprecated
         k_param_pid_accel_z, // deprecated
-
+	
+	k_param_Px,
+	k_param_Py,
+	k_param_Pz,
+	k_param_Ix,
+	k_param_Iy,
+	k_param_Iz,
+	k_param_Dx,
+	k_param_Dy,
+	k_param_Dz, //139
 
         // Failsafes
         k_param_failsafe_gcs = 140,
@@ -341,6 +350,38 @@ public:
 
     AP_Float                surface_depth;
     AP_Int8                 frame_configuration;
+
+    ///////////////////////////////////////////
+    //POSSIBLEMENT DE LA MERDE !!!!
+    //////////////////////////////////////////
+
+    AP_Float		Px;
+    AP_Float 		Ix;
+    AP_Float		Dx;
+    //AP_Float 		FFx;
+    //AP_Float		FTx;
+    //AP_Float 		FEx;
+    //AP_Float 		FDx;
+    
+    AP_Float		Py;
+    AP_Float 		Iy;
+    AP_Float		Dy;
+    //AP_Float 		FFy;
+    //AP_Float		FTy;
+    //AP_Float 		FEy;
+    //AP_Float 		FDy;
+    
+    AP_Float		Pz;
+    AP_Float 		Iz;
+    AP_Float		Dz;
+    //AP_Float 		FFz;
+    //AP_Float		FTz;
+    //AP_Float 		FEz;
+    //AP_Float 		FDz;
+    
+    
+    
+
 
     // Note: keep initializers here in the same order as they are declared
     // above.
