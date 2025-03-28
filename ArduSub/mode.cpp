@@ -54,7 +54,7 @@ Mode *Sub::mode_from_mode_num(const Mode::Number mode)
             ret = &mode_circle;
             break;
         case Mode::Number::SURFACE:
-            ret = &mode_chad; //TODO /!\Chad is here only for testing without custom version of cockpit ! 
+            ret = &mode_surface;
             break;
         case Mode::Number::MOTOR_DETECT:
             ret = &mode_motordetect;

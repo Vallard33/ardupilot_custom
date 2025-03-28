@@ -47,7 +47,7 @@ public:
         GUIDED =        4,  // fully automatic fly to coordinate or fly at velocity/direction using GCS immediate commands
         CIRCLE =        7,  // automatic circular flight with automatic throttle
         SURFACE =       9,  // automatically return to surface, pilot maintains horizontal control
-	CHAD =		10, // Use the navigation camera to stabalize, override all pilot command
+    	CHAD =		10, // Use the navigation camera to stabalize, override all pilot command
         POSHOLD =      16,  // automatic position hold with manual override, with automatic throttle
         MANUAL =       19,  // Pass-through input with no stabilization
         MOTOR_DETECT = 20,  // Automatically detect motors orientation
