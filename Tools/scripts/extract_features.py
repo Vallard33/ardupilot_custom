@@ -88,6 +88,7 @@ class ExtractFeatures(object):
             ('AP_RANGEFINDER_TRI2C_ENABLED', r'AP_RangeFinder_TeraRangerI2C::update\b',),
             ('AP_RANGEFINDER_JRE_SERIAL_ENABLED', r'AP_RangeFinder_JRE_Serial::get_reading\b',),
             ('AP_RANGEFINDER_RDS02UF_ENABLED', r'AP_RangeFinder_RDS02UF::get_reading\b',),
+            ('AP_RANGEFINDER_HEXSOONRADAR_ENABLED', r'AP_RangeFinder_NRA24_CAN::handle_frame'),
 
             ('AP_GPS_NMEA_UNICORE_ENABLED', r'AP_GPS_NMEA::parse_agrica_field',),
             ('AP_GPS_{type}_ENABLED', r'AP_GPS_(?P<type>.*)::read\b',),
@@ -103,6 +104,7 @@ class ExtractFeatures(object):
             ('HAL_MSP_{type}_ENABLED', r'AP_(?P<type>.*)_MSP::update\b',),
             ('HAL_MSP_{type}_ENABLED', r'AP_(?P<type>.*)_MSP::read\b',),
             ('HAL_WITH_MSP_DISPLAYPORT', r'AP_OSD_MSP_DisplayPort::init\b',),
+            ('AP_MSP_INAV_FONTS_ENABLED', r'AP_OSD_MSP_DisplayPort::write_INAV\b',),
 
 
             ('AP_BATTERY_{type}_ENABLED', r'AP_BattMonitor_(?P<type>.*)::init\b',),
